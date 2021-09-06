@@ -1,6 +1,6 @@
 # MIT-Team17
 
-![](resources\recording.gif)
+![](.\resources\recording.gif)
 
 This is an **OHLC Financial Analytical Server** built in Python and Streamlit.
 
