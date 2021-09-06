@@ -1,10 +1,10 @@
 # MIT-Team17
 
-![](.\resources\recording.gif)
+![gif-demo](.\resources\recording.gif)
 
 This is an **OHLC Financial Analytical Server** built in Python and Streamlit.
 
-[live demo](https://ohlc-engine1.herokuapp.com/). 
+[live-demo](https://ohlc-engine1.herokuapp.com/). 
 
 ### Deploy on local machine:
 
