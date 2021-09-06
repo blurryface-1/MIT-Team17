@@ -12,13 +12,16 @@ symbols = df['symbol'].unique()
 st.write("""
 # Financial Analytical Server 
 """)
-
+if 'history' not in st.session_state:
+    st.session_state['history'] = []
 def get_input():
     st.sidebar.header('User Input')
     start_date = st.sidebar.text_input('Start Date', '2021-04-01')
     end_date = st.sidebar.text_input('End Date', '2021-08-25')
     # stock_symbol = st.sidebar.text_input('Stock Symbol','AAPL')
     stock_symbol = st.sidebar.selectbox('Choose Option',symbols)
+    st.header(f'{stock_symbol}')
+    st.session_state.history.append(stock_symbol)
     return start_date, end_date, stock_symbol
 
 def slice_it(symbol):
@@ -131,11 +134,22 @@ def company_info(symbol):
     total_desc="\nName: {}\n\nExchange: {}\n\nIndustry: {}\n\nCEO: {}\n\nNo. of Employees: {}\n\nDescription:\n{}\n".format(companyName,exchange,industry,ceo,employees,description)
     return total_desc
 
+def remove_duplicates(arr):
+    seen = set()
+    seen_add = seen.add
+    return [x for x in arr if not (x in seen or seen_add(x))]
+
 start, end, symbol = get_input()
 
 dfm = slice_it(symbol)
 
 dfm = get_data(dfm, start, end)
+
+
+if st.button('Information'):
+    st.header(symbol + ' Information')
+    st.write(company_info(symbol))
+
 
 st.header('OHLC\n')
 fig = get_plot_ohlc(dfm,symbol)
@@ -152,9 +166,12 @@ st.plotly_chart(fig)
 st.header('Volume\n')
 st.line_chart(dfm['volume'])
 
+
 st.header('Data Statistics')
 st.write(dfm.head(10))
 
-st.header(symbol + ' Information')
-st.write(company_info(symbol))
 
+
+l = remove_duplicates(reversed(st.session_state.history))
+for i in l:
+    st.sidebar.write(i)
